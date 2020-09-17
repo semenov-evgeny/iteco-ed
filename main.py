@@ -6,17 +6,11 @@ def get_file_info(pathname):
     get_file_info_data = []
     for dirpath, dirnames, filenames in os.walk(pathname):
         for filename in filenames:
-            hash_object = hashlib.sha1(filename.encode())
-            hex_dig = hash_object.hexdigest()
-            #file_state = os.stat(filename)
-            #print(file_state)
-            #print(file_state.st_atime)
-            #print(os.stat(filename).st_mtime)
-            get_file_info.append([{filename: dirpath}, {filename: hex_dig}, {filename}])
-            get_file_info_data.append([dirpath, filename, hex_dig])
-    print(get_file_info)
-
-
+            hash_object = hashlib.sha1(filename.encode()).hexdigest()
+            dir_file_name = os.path.join(dirpath, filename)
+            file_state = os.stat(dir_file_name).st_mtime
+            get_file_info.append([{filename: dirpath}, {filename: hash_object}, {filename: file_state}])
+            get_file_info_data.append([dirpath, filename, hash_object, file_state])
     return get_file_info_data
 
 
